@@ -37,7 +37,7 @@ export default function RootLayout({
       <body className={cn("min-h-screen bg-gray-50", inter.className)}>
         <div className="flex flex-col min-h-screen">
           {/* Header */}
-          <header className="border-b">
+          <header className="border-b bg-white fixed top-0 left-0 right-0 z-50">
             <div className="container max-w-[1200px] mx-auto h-16 px-4">
               <div className="flex items-center justify-between h-full">
                 {/* Left side */}
@@ -131,7 +131,7 @@ export default function RootLayout({
           </header>
 
           {/* Main Content */}
-          <main className="flex-1">
+          <main className="flex-1 mt-16">
             {children}
           </main>
 

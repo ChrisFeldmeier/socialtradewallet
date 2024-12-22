@@ -103,7 +103,7 @@ export default function InvestPage() {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
-    <div className="container py-8">
+    <div className="container max-w-[1200px] mx-auto py-8">
       <div className="grid gap-8">
         {/* Header */}
         <div>
