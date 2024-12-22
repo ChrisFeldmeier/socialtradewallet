@@ -120,27 +120,6 @@ export default function ProfileSettings() {
             </div>
           </Card>
 
-          {/* Navigation Links */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            {navigationLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center ${link.color}`}>
-                    <link.icon className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold">{link.title}</h3>
-                    <p className="text-sm text-gray-500">{link.description}</p>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-gray-400" />
-                </div>
-              </Link>
-            ))}
-          </div>
 
           {/* Personal Information */}
           <Card className="p-6">

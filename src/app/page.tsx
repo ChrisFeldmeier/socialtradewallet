@@ -23,10 +23,21 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useState } from "react";
+import { TradeDialog } from "@/components/trade-dialog";
+import { DepositDialog } from "@/components/deposit-dialog";
+import { SendDialog } from "@/components/send-dialog";
+import { NotificationsSheet } from "@/components/notifications-sheet";
+import Link from "next/link";
 
 const Chart = dynamic(() => import("@/components/chart"), { ssr: false });
 
 export default function Home() {
+  const [isTradeDialogOpen, setIsTradeDialogOpen] = useState(false);
+  const [isDepositDialogOpen, setIsDepositDialogOpen] = useState(false);
+  const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
   return (
     <div className="container max-w-[1200px] mx-auto p-4">
       {/* Header Section */}
@@ -40,7 +51,11 @@ export default function Home() {
             <Clock className="h-4 w-4 mr-2" />
             Letzte 7 Tage
           </Button>
-          <Button variant="outline" size="sm">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => setIsNotificationsOpen(true)}
+          >
             <Bell className="h-4 w-4 mr-2" />
             Benachrichtigungen
           </Button>
@@ -80,7 +95,11 @@ export default function Home() {
                 <p className="text-sm text-gray-500">Verfügbares Guthaben</p>
                 <h2 className="text-2xl font-bold">€1.234,56</h2>
               </div>
-              <Button variant="outline" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => setIsDepositDialogOpen(true)}
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Einzahlen
               </Button>
@@ -221,32 +240,64 @@ export default function Home() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Button variant="outline" className="h-auto py-4">
+          <Button 
+            variant="outline" 
+            className="h-auto py-4"
+            onClick={() => setIsTradeDialogOpen(true)}
+          >
             <div className="flex flex-col items-center gap-2">
               <ArrowUpDown className="h-6 w-6" />
               <span>Handeln</span>
             </div>
           </Button>
-          <Button variant="outline" className="h-auto py-4">
+          <Button 
+            variant="outline" 
+            className="h-auto py-4"
+            onClick={() => setIsDepositDialogOpen(true)}
+          >
             <div className="flex flex-col items-center gap-2">
               <Wallet className="h-6 w-6" />
               <span>Einzahlen</span>
             </div>
           </Button>
-          <Button variant="outline" className="h-auto py-4">
+          <Button 
+            variant="outline" 
+            className="h-auto py-4"
+            onClick={() => setIsSendDialogOpen(true)}
+          >
             <div className="flex flex-col items-center gap-2">
               <Send className="h-6 w-6" />
               <span>Senden</span>
             </div>
           </Button>
-          <Button variant="outline" className="h-auto py-4">
-            <div className="flex flex-col items-center gap-2">
-              <Bell className="h-6 w-6" />
-              <span>Preisalarme</span>
-            </div>
-          </Button>
+          <Link href="/settings/alerts">
+            <Button variant="outline" className="h-auto py-4 w-full">
+              <div className="flex flex-col items-center gap-2">
+                <Bell className="h-6 w-6" />
+                <span>Preisalarme</span>
+              </div>
+            </Button>
+          </Link>
         </div>
       </div>
+
+      {/* Dialogs */}
+      <TradeDialog 
+        isOpen={isTradeDialogOpen} 
+        onOpenChange={setIsTradeDialogOpen}
+      />
+      <DepositDialog 
+        isOpen={isDepositDialogOpen} 
+        onOpenChange={setIsDepositDialogOpen}
+      />
+      <SendDialog 
+        isOpen={isSendDialogOpen} 
+        onOpenChange={setIsSendDialogOpen}
+      />
+      <NotificationsSheet 
+        isOpen={isNotificationsOpen} 
+        onOpenChange={setIsNotificationsOpen}
+      />
     </div>
   );
 }
