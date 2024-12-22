@@ -2,220 +2,256 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { 
   Search,
-  Newspaper,
-  TrendingUp,
   Filter,
+  TrendingUp,
+  Clock,
+  Star,
   ThumbsUp,
   MessageCircle,
   Share2,
-  ChevronRight
+  ChevronRight,
+  Globe,
+  Newspaper,
+  BarChart2
 } from "lucide-react";
-import Link from "next/link";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Dummy data for news
-const news = [
+// Dummy data for news categories
+const categories = [
+  {
+    id: "market",
+    name: "Marktanalysen",
+    description: "Tägliche Marktanalysen und Preisprognosen",
+    icon: <BarChart2 className="h-6 w-6" />
+  },
+  {
+    id: "news",
+    name: "Aktuelle News",
+    description: "Breaking News und wichtige Updates",
+    icon: <Newspaper className="h-6 w-6" />
+  },
+  {
+    id: "global",
+    name: "Globale Märkte",
+    description: "Entwicklungen an den internationalen Märkten",
+    icon: <Globe className="h-6 w-6" />
+  }
+];
+
+// Dummy data for news articles
+const articles = [
   {
     id: 1,
-    title: "Ethereum Upgrade: Was bedeutet das für DeFi?",
-    excerpt: "Die kommende Ethereum-Aktualisierung könnte den DeFi-Sektor revolutionieren. Wir analysieren die wichtigsten Änderungen und deren Auswirkungen auf das Ökosystem.",
+    title: "Bitcoin ETF Zulassung: SEC genehmigt erste Spot-ETFs",
+    excerpt: "Die US-Börsenaufsicht SEC hat heute die ersten Bitcoin Spot-ETFs zugelassen. Diese Entscheidung wird als historischer Moment für die Kryptoindustrie gesehen.",
+    image: "/images/news/bitcoin-etf.jpg",
     author: {
-      name: "Crypto Expert",
-      avatar: "CE",
+      name: "Crypto News",
+      avatar: "CN",
       verified: true
     },
-    category: "ANALYSIS",
+    category: "Breaking News",
     publishedAt: "2024-01-20T10:00:00Z",
-    readTime: "5 min",
-    likes: 234,
-    comments: 56,
-    shares: 12,
-    tags: ["Ethereum", "DeFi", "Blockchain"]
+    stats: {
+      views: 12345,
+      comments: 234,
+      likes: 567
+    },
+    tags: ["Bitcoin", "ETF", "SEC", "Regulierung"]
   },
   {
     id: 2,
-    title: "Bitcoin erreicht neues Jahreshoch - Was sind die Gründe?",
-    excerpt: "Der Bitcoin-Kurs hat ein neues Jahreshoch erreicht. Wir untersuchen die fundamentalen und technischen Faktoren hinter dieser Entwicklung.",
+    title: "Ethereum 2.0: Nächstes großes Update steht bevor",
+    excerpt: "Das Ethereum-Netzwerk bereitet sich auf sein nächstes großes Update vor. Die Änderungen sollen die Skalierbarkeit verbessern und Transaktionsgebühren senken.",
+    image: "/images/news/ethereum-update.jpg",
     author: {
-      name: "Sarah Miller",
-      avatar: "SM",
+      name: "Tech Analysis",
+      avatar: "TA",
       verified: true
     },
-    category: "MARKET",
+    category: "Technologie",
     publishedAt: "2024-01-19T15:30:00Z",
-    readTime: "4 min",
-    likes: 567,
-    comments: 89,
-    shares: 145,
-    tags: ["Bitcoin", "Krypto", "Trading"]
+    stats: {
+      views: 8901,
+      comments: 123,
+      likes: 345
+    },
+    tags: ["Ethereum", "Blockchain", "Technology"]
   },
-  // Add more news
+  {
+    id: 3,
+    title: "Marktanalyse: Krypto-Markt zeigt bullische Signale",
+    excerpt: "Die technische Analyse zeigt mehrere bullische Indikatoren für den Kryptomarkt. Bitcoin und andere Top-Altcoins könnten vor einem wichtigen Ausbruch stehen.",
+    image: "/images/news/market-analysis.jpg",
+    author: {
+      name: "Market Expert",
+      avatar: "ME",
+      verified: true
+    },
+    category: "Marktanalyse",
+    publishedAt: "2024-01-18T09:15:00Z",
+    stats: {
+      views: 5678,
+      comments: 89,
+      likes: 234
+    },
+    tags: ["Analyse", "Bitcoin", "Altcoins", "Trading"]
+  }
 ];
 
 export default function NewsPage() {
   return (
     <div className="container max-w-[1200px] mx-auto py-6 px-4">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold">News & Analysen</h1>
-          <p className="text-gray-500">Die wichtigsten Updates und Einblicke aus der Trading-Welt</p>
+          <h1 className="text-3xl font-bold mb-2">News & Analysen</h1>
+          <p className="text-gray-500">
+            Bleiben Sie auf dem Laufenden mit den neuesten Entwicklungen
+          </p>
         </div>
-        <Button>
-          <Newspaper className="h-4 w-4 mr-2" />
-          Analyse erstellen
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline">
+            <Clock className="h-4 w-4 mr-2" />
+            Letzte 24h
+          </Button>
+          <Button>
+            <Star className="h-4 w-4 mr-2" />
+            Watchlist
+          </Button>
+        </div>
       </div>
 
       {/* Search and Filter */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input 
-            placeholder="News durchsuchen..." 
+          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+          <Input
+            placeholder="News durchsuchen..."
             className="pl-10"
           />
         </div>
-        <Button variant="outline">
-          <Filter className="h-4 w-4 mr-2" />
-          Filter
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4" />
+            Trending
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            Neueste
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <Filter className="h-4 w-4" />
+            Filter
+          </Button>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Content */}
-        <div className="lg:col-span-2">
-          <Tabs defaultValue="all">
-            <TabsList className="mb-6">
-              <TabsTrigger value="all">Alle</TabsTrigger>
-              <TabsTrigger value="market">Markt</TabsTrigger>
-              <TabsTrigger value="analysis">Analysen</TabsTrigger>
-              <TabsTrigger value="education">Bildung</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="all" className="space-y-6">
-              {news.map((article) => (
-                <Link 
-                  key={article.id}
-                  href={`/social/news/${article.id}`}
-                >
-                  <Card className="p-6 hover:shadow-lg transition-shadow">
-                    {/* Article Header */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center font-medium">
-                          {article.author.avatar}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium">{article.author.name}</span>
-                            {article.author.verified && (
-                              <Badge variant="outline" className="bg-blue-50 text-blue-700">Verifiziert</Badge>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-gray-500">
-                            <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
-                            <span>•</span>
-                            <span>{article.readTime} Lesezeit</span>
-                          </div>
-                        </div>
-                      </div>
-                      <Badge variant="outline" className="bg-gray-100">
-                        {article.category}
-                      </Badge>
-                    </div>
-
-                    {/* Article Content */}
-                    <h2 className="text-xl font-bold mb-2">{article.title}</h2>
-                    <p className="text-gray-600 mb-4 line-clamp-2">{article.excerpt}</p>
-
-                    {/* Tags */}
-                    <div className="flex gap-2 mb-4">
-                      {article.tags.map((tag) => (
-                        <Badge key={tag} variant="outline">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    {/* Article Footer */}
-                    <div className="flex items-center justify-between pt-4 border-t">
-                      <div className="flex items-center gap-6">
-                        <button className="flex items-center gap-2 text-gray-500 hover:text-gray-700">
-                          <ThumbsUp className="h-4 w-4" />
-                          <span>{article.likes}</span>
-                        </button>
-                        <button className="flex items-center gap-2 text-gray-500 hover:text-gray-700">
-                          <MessageCircle className="h-4 w-4" />
-                          <span>{article.comments}</span>
-                        </button>
-                        <button className="flex items-center gap-2 text-gray-500 hover:text-gray-700">
-                          <Share2 className="h-4 w-4" />
-                          <span>{article.shares}</span>
-                        </button>
-                      </div>
-                      <ChevronRight className="h-5 w-5 text-gray-400" />
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </TabsContent>
-          </Tabs>
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Trending Topics */}
-          <Card className="p-6">
-            <h3 className="text-lg font-medium mb-4">Trending Topics</h3>
-            <div className="space-y-4">
-              <Link 
-                href="/social/topics/bitcoin"
-                className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-lg"
-              >
-                <div className="flex items-center gap-3">
-                  <TrendingUp className="h-5 w-5 text-green-600" />
-                  <div>
-                    <span className="font-medium">Bitcoin</span>
-                    <p className="text-sm text-gray-500">2.5k Beiträge</p>
-                  </div>
+      {/* Categories */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {categories.map((category) => (
+          <Card key={category.id} className="p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center gap-4">
+                <div className="p-2 bg-gray-100 rounded-lg text-gray-600">
+                  {category.icon}
                 </div>
-                <ChevronRight className="h-5 w-5 text-gray-400" />
-              </Link>
-              {/* Add more trending topics */}
+                <div>
+                  <h3 className="font-medium mb-1">{category.name}</h3>
+                  <p className="text-sm text-gray-500">{category.description}</p>
+                </div>
+              </div>
+              <ChevronRight className="h-5 w-5 text-gray-400" />
             </div>
           </Card>
+        ))}
+      </div>
 
-          {/* Popular Authors */}
-          <Card className="p-6">
-            <h3 className="text-lg font-medium mb-4">Top Autoren</h3>
-            <div className="space-y-4">
-              <Link 
-                href="/social/authors/crypto-expert"
-                className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-lg"
-              >
+      {/* News Articles */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Aktuelle News</h2>
+          <Button variant="outline" size="sm">
+            Alle anzeigen
+          </Button>
+        </div>
+
+        <div className="space-y-6">
+          {articles.map((article) => (
+            <Card key={article.id} className="p-6 hover:shadow-lg transition-shadow">
+              {/* Article Header */}
+              <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
-                    CE
+                  <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center font-medium">
+                    {article.author.avatar}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-medium">Crypto Expert</span>
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700">Pro</Badge>
+                      <span className="font-medium">{article.author.name}</span>
+                      {article.author.verified && (
+                        <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                          Verifiziert
+                        </Badge>
+                      )}
                     </div>
-                    <p className="text-sm text-gray-500">156 Artikel</p>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
+                      <span>•</span>
+                      <span>{article.category}</span>
+                    </div>
                   </div>
                 </div>
-                <ChevronRight className="h-5 w-5 text-gray-400" />
-              </Link>
-              {/* Add more authors */}
-            </div>
-          </Card>
+                <Badge variant="outline" className="bg-gray-100">
+                  {article.stats.views} Views
+                </Badge>
+              </div>
+
+              {/* Article Content */}
+              <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
+              <p className="text-gray-600 mb-4">{article.excerpt}</p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {article.tags.map((tag) => (
+                  <Badge key={tag} variant="outline">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+
+              {/* Article Footer */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <MessageCircle className="h-4 w-4" />
+                    <span>{article.stats.comments} Kommentare</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <ThumbsUp className="h-4 w-4" />
+                    <span>{article.stats.likes} Likes</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <Share2 className="h-4 w-4" />
+                    <span>Teilen</span>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm">
+                  Weiterlesen
+                  <ChevronRight className="h-4 w-4 ml-2" />
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        {/* Load More */}
+        <div className="flex justify-center mt-8">
+          <Button variant="outline">
+            Mehr News laden
+          </Button>
         </div>
       </div>
     </div>
