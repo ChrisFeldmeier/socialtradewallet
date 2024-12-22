@@ -1,5 +1,6 @@
+"use client";
+
 import { Line } from "react-chartjs-2";
-import { useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,54 +24,48 @@ ChartJS.register(
   Filler
 );
 
-type TimeRange = "1D" | "1W" | "1M" | "1Y";
-
 interface ChartProps {
-  timeRange: TimeRange;
+  timeRange?: "1D" | "1W" | "1M" | "1Y";
 }
 
-// Generiere die Daten einmalig außerhalb der Komponente
-const generateInitialData = () => {
-  const basePrice = 45000;
-  const data = {
-    "1D": {
-      labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
-      data: Array.from({ length: 24 }, (_, i) => basePrice + Math.sin(i / 4) * 1000)
-    },
-    "1W": {
-      labels: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
-      data: Array.from({ length: 7 }, (_, i) => basePrice + Math.sin(i / 2) * 2000)
-    },
-    "1M": {
-      labels: Array.from({ length: 30 }, (_, i) => `${i + 1}`),
-      data: Array.from({ length: 30 }, (_, i) => basePrice + Math.sin(i / 8) * 5000)
-    },
-    "1Y": {
-      labels: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-      data: Array.from({ length: 12 }, (_, i) => basePrice + Math.sin(i / 3) * 10000)
+export function Chart({ timeRange = "1M" }: ChartProps) {
+  // Generate dummy data based on time range
+  const generateData = () => {
+    const points = timeRange === "1D" ? 24 : timeRange === "1W" ? 7 : timeRange === "1M" ? 30 : 12;
+    const data = [];
+    let value = 10000;
+    
+    for (let i = 0; i < points; i++) {
+      const change = (Math.random() - 0.4) * 500;
+      value += change;
+      data.push(value);
     }
+    
+    return data;
   };
-  return data;
-};
 
-const initialData = generateInitialData();
+  const labels = {
+    "1D": Array.from({ length: 24 }, (_, i) => `${i}:00`),
+    "1W": ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+    "1M": Array.from({ length: 30 }, (_, i) => `${i + 1}`),
+    "1Y": ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
+  };
 
-export default function Chart({ timeRange }: ChartProps) {
-  const data = useMemo(() => ({
-    labels: initialData[timeRange].labels,
+  const data = {
+    labels: labels[timeRange],
     datasets: [
       {
         label: "Portfolio Wert",
-        data: initialData[timeRange].data,
+        data: generateData(),
         fill: true,
         borderColor: "rgb(59, 130, 246)",
         backgroundColor: "rgba(59, 130, 246, 0.1)",
         tension: 0.4,
         pointRadius: 0,
-        borderWidth: 2,
+        pointHitRadius: 10,
       },
     ],
-  }), [timeRange]);
+  };
 
   const options = {
     responsive: true,
@@ -84,17 +79,7 @@ export default function Chart({ timeRange }: ChartProps) {
         intersect: false,
         callbacks: {
           label: (context: any) => {
-            let label = context.dataset.label || "";
-            if (label) {
-              label += ": ";
-            }
-            if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat("de-DE", {
-                style: "currency",
-                currency: "EUR",
-              }).format(context.parsed.y);
-            }
-            return label;
+            return `${context.parsed.y.toLocaleString()} €`;
           },
         },
       },
@@ -111,19 +96,19 @@ export default function Chart({ timeRange }: ChartProps) {
         },
         ticks: {
           callback: (value: any) => {
-            return new Intl.NumberFormat("de-DE", {
-              style: "currency",
-              currency: "EUR",
-            }).format(value);
+            return `${value.toLocaleString()} €`;
           },
         },
       },
     },
     interaction: {
+      mode: "nearest" as const,
+      axis: "x" as const,
       intersect: false,
-      mode: "index" as const,
     },
   };
 
-  return <Line data={data} options={options} />;
+  return (
+    <Line data={data} options={options} />
+  );
 } 

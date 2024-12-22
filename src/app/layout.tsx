@@ -11,7 +11,16 @@ import {
   ArrowUpDown,
   User,
   Menu,
-  X
+  X,
+  Shield,
+  CreditCard,
+  History,
+  Lock,
+  Gift,
+  HelpCircle,
+  Users,
+  ChevronRight,
+  Settings
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -25,11 +34,12 @@ import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const navigationItems = [
-  { href: "/", label: "Übersicht" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/discover", label: "Entdecken" },
-  { href: "/invest", label: "Investieren" },
+const navigation = [
+  { name: "Übersicht", href: "/" },
+  { name: "Portfolio", href: "/portfolio" },
+  { name: "Discover", href: "/discover" },
+  { name: "Invest", href: "/invest" },
+  { name: "Social", href: "/social" },
 ];
 
 export default function RootLayout({
@@ -42,6 +52,7 @@ export default function RootLayout({
   const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -58,17 +69,19 @@ export default function RootLayout({
                     <CircleDot className="h-5 w-5" />
                     Kryptobörse
                   </Link>
-                  <nav className="hidden md:flex items-center gap-6">
-                    {navigationItems.map((item) => (
-                      <Link 
-                        key={item.href} 
-                        href={item.href} 
+                  <nav className="flex items-center gap-6">
+                    {navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
                         className={cn(
-                          "text-sm hover:text-gray-600",
-                          pathname === item.href && "text-blue-600 font-medium"
+                          "text-sm font-medium transition-colors hover:text-primary",
+                          pathname === item.href
+                            ? "text-primary"
+                            : "text-muted-foreground"
                         )}
                       >
-                        {item.label}
+                        {item.name}
                       </Link>
                     ))}
                   </nav>
@@ -169,15 +182,15 @@ export default function RootLayout({
             <div 
               className={cn(
                 "md:hidden bg-white border-b overflow-hidden transition-all duration-300",
-                isMobileMenuOpen ? "max-h-[500px]" : "max-h-0"
+                isMobileMenuOpen ? "max-h-[800px]" : "max-h-0"
               )}
             >
               <div className="container max-w-[1200px] mx-auto px-4 py-4 space-y-4">
                 {/* Navigation Links */}
                 <nav className="space-y-1">
-                  {navigationItems.map((item) => (
+                  {navigation.map((item) => (
                     <Link 
-                      key={item.href} 
+                      key={item.name} 
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
@@ -185,7 +198,7 @@ export default function RootLayout({
                         pathname === item.href && "bg-gray-100 font-medium"
                       )}
                     >
-                      {item.label}
+                      {item.name}
                     </Link>
                   ))}
                 </nav>
@@ -236,19 +249,132 @@ export default function RootLayout({
                     <Bell className="h-5 w-5 mr-2" />
                     Benachrichtigungen
                   </Button>
-                  <Link 
-                    href="/settings/profile"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="w-full"
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => setIsSettingsOpen(!isSettingsOpen)}
                   >
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
+                    <Settings className="h-5 w-5 mr-2" />
+                    Einstellungen
+                    <ChevronRight className={cn(
+                      "h-5 w-5 ml-auto transition-transform",
+                      isSettingsOpen && "rotate-90"
+                    )} />
+                  </Button>
+
+                  {/* Settings Submenu */}
+                  <div className={cn(
+                    "space-y-1 overflow-hidden transition-all duration-300",
+                    isSettingsOpen ? "max-h-[500px] pt-2" : "max-h-0"
+                  )}>
+                    <Link 
+                      href="/settings/profile"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
                     >
-                      <User className="h-5 w-5 mr-2" />
-                      Profil
-                    </Button>
-                  </Link>
+                      <div className="flex items-center gap-3">
+                        <User className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Persönliche Daten</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/security"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Shield className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Sicherheit</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/payment-methods"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <CreditCard className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Zahlungsmethoden</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/transactions"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <History className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Transaktionshistorie</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/limits"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Lock className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Limits & Gebühren</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/alerts"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Bell className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Preisalarme</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/referral"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Gift className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Freunde werben</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/pro"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Users className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Pro Mitgliedschaft</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+
+                    <Link 
+                      href="/settings/support"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
+                    >
+                      <div className="flex items-center gap-3">
+                        <HelpCircle className="h-5 w-5 text-gray-600" />
+                        <span className="text-sm">Hilfe & Support</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
