@@ -18,7 +18,7 @@ import { TradeDialog } from "@/components/trade-dialog";
 import { DepositDialog } from "@/components/deposit-dialog";
 import { SendDialog } from "@/components/send-dialog";
 import { NotificationsSheet } from "@/components/notifications-sheet";
-import { ProfileSheet } from "@/components/profile-sheet";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,127 +31,128 @@ export default function RootLayout({
   const [isDepositDialogOpen, setIsDepositDialogOpen] = useState(false);
   const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
     <html lang="de">
       <body className={cn("min-h-screen bg-gray-50", inter.className)}>
-        <header className="sticky top-0 z-50 w-full border-b bg-white">
-          <div className="container max-w-[1200px] mx-auto px-4">
-            <div className="flex h-16 items-center justify-between">
-              {/* Logo and Navigation */}
-              <div className="flex items-center gap-8">
-                <Link href="/" className="flex items-center gap-2">
-                  <CircleDot className="h-6 w-6" />
-                  <span className="font-semibold">Bitpanda</span>
-                </Link>
-                <nav className="hidden md:flex items-center gap-6">
-                  <Link 
-                    href="/" 
-                    className="text-sm font-medium text-gray-600 hover:text-gray-900"
-                  >
-                    Übersicht
+        <div className="flex flex-col min-h-screen">
+          {/* Header */}
+          <header className="border-b">
+            <div className="container max-w-[1200px] mx-auto h-16 px-4">
+              <div className="flex items-center justify-between h-full">
+                {/* Left side */}
+                <div className="flex items-center gap-8">
+                  <Link href="/" className="flex items-center gap-2 font-medium">
+                    <CircleDot className="h-5 w-5" />
+                    Bitpanda
                   </Link>
-                  <Link 
-                    href="/portfolio" 
-                    className="text-sm font-medium text-gray-600 hover:text-gray-900"
-                  >
-                    Portfolio
-                  </Link>
-                  <Link 
-                    href="/discover" 
-                    className="text-sm font-medium text-gray-600 hover:text-gray-900"
-                  >
-                    Entdecken
-                  </Link>
-                  <Link 
-                    href="/invest" 
-                    className="text-sm font-medium text-gray-600 hover:text-gray-900"
-                  >
-                    Investieren
-                  </Link>
-                </nav>
-              </div>
+                  <nav className="flex items-center gap-6">
+                    <Link href="/" className="text-sm hover:text-gray-600">Übersicht</Link>
+                    <Link href="/portfolio" className="text-sm hover:text-gray-600">Portfolio</Link>
+                    <Link href="/discover" className="text-sm hover:text-gray-600">Entdecken</Link>
+                    <Link href="/invest" className="text-sm hover:text-gray-600">Investieren</Link>
+                  </nav>
+                </div>
 
-              {/* Actions */}
-              <div className="flex items-center gap-4">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setIsDepositDialogOpen(true)}
-                >
-                  <Wallet className="h-4 w-4 mr-2" />
-                  Einzahlen
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setIsSendDialogOpen(true)}
-                >
-                  <Send className="h-4 w-4 mr-2" />
-                  Senden
-                </Button>
-                <Button 
-                  size="sm"
-                  onClick={() => setIsTradeDialogOpen(true)}
-                >
-                  <ArrowUpDown className="h-4 w-4 mr-2" />
-                  Handeln
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="relative"
-                  onClick={() => setIsNotificationsOpen(true)}
-                >
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-600 text-[10px] font-medium text-white flex items-center justify-center">
-                    3
-                  </span>
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  onClick={() => setIsProfileOpen(true)}
-                >
-                  <User className="h-5 w-5" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                >
-                  CN
-                </Button>
+                {/* Right side */}
+                <div className="flex items-center gap-2">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          className="text-gray-600 hover:text-gray-900"
+                          onClick={() => setIsDepositDialogOpen(true)}
+                        >
+                          Geld einzahlen
+                          <Wallet className="h-5 w-5 ml-2" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Einzahlen</TooltipContent>
+                    </Tooltip>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          className="text-gray-600 hover:text-gray-900"
+                          onClick={() => setIsSendDialogOpen(true)}
+                        >
+                          Geld senden
+                          <Send className="h-5 w-5 ml-2" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Senden</TooltipContent>
+                    </Tooltip>
+
+                    <Button 
+                      variant="default" 
+                      size="sm"
+                      onClick={() => setIsTradeDialogOpen(true)}
+                    >
+                      <ArrowUpDown className="h-5 w-5 mr-2" />
+                      Handeln
+                    </Button>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="text-gray-600 hover:text-gray-900"
+                          onClick={() => setIsNotificationsOpen(true)}
+                        >
+                          <Bell className="h-5 w-5" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Benachrichtigungen</TooltipContent>
+                    </Tooltip>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link href="/settings/profile">
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="text-gray-600 hover:text-gray-900"
+                          >
+                            <User className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>Profil</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        <main>
-          {children}
-        </main>
+          {/* Main Content */}
+          <main className="flex-1">
+            {children}
+          </main>
 
-        {/* Dialogs and Sheets */}
-        <TradeDialog 
-          isOpen={isTradeDialogOpen} 
-          onOpenChange={setIsTradeDialogOpen} 
-        />
-        <DepositDialog 
-          isOpen={isDepositDialogOpen} 
-          onOpenChange={setIsDepositDialogOpen} 
-        />
-        <SendDialog 
-          isOpen={isSendDialogOpen} 
-          onOpenChange={setIsSendDialogOpen} 
-        />
-        <NotificationsSheet 
-          isOpen={isNotificationsOpen} 
-          onOpenChange={setIsNotificationsOpen} 
-        />
-        <ProfileSheet 
-          isOpen={isProfileOpen} 
-          onOpenChange={setIsProfileOpen} 
-        />
+          {/* Dialogs */}
+          <TradeDialog 
+            isOpen={isTradeDialogOpen} 
+            onOpenChange={setIsTradeDialogOpen}
+          />
+          <DepositDialog 
+            isOpen={isDepositDialogOpen} 
+            onOpenChange={setIsDepositDialogOpen}
+          />
+          <SendDialog 
+            isOpen={isSendDialogOpen} 
+            onOpenChange={setIsSendDialogOpen}
+          />
+          <NotificationsSheet 
+            isOpen={isNotificationsOpen} 
+            onOpenChange={setIsNotificationsOpen}
+          />
+        </div>
       </body>
     </html>
   );
