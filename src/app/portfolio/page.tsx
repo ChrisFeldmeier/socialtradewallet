@@ -65,15 +65,15 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
           {/* Left Content */}
-          <div className="col-span-8">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-              <div className="flex items-center justify-between mb-6">
+          <div className="md:col-span-8">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 mb-4 md:mb-8">
+              <div className="flex items-center justify-between mb-4 md:mb-6">
                 <div>
-                  <h1 className="text-2xl font-bold">Portfolio</h1>
-                  <div className="flex items-center gap-4 mt-2">
-                    <p className="text-3xl font-semibold">
+                  <h1 className="text-xl md:text-2xl font-bold">Portfolio</h1>
+                  <div className="flex items-center gap-2 md:gap-4 mt-2">
+                    <p className="text-2xl md:text-3xl font-semibold">
                       €{totalValue.toLocaleString()}
                     </p>
                     <Badge variant="outline" className="flex items-center">
@@ -87,7 +87,7 @@ export default function Portfolio() {
                 </Button>
               </div>
 
-              <div className="h-[300px] mt-8">
+              <div className="h-[250px] md:h-[300px] mt-4 md:mt-8">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={performanceData}>
                     <XAxis dataKey="name" />
@@ -104,113 +104,117 @@ export default function Portfolio() {
                 </ResponsiveContainer>
               </div>
 
-              <div className="grid grid-cols-3 gap-4 mt-8">
-                <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4 mt-4 md:mt-8">
+                <div className="p-3 md:p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-500">24h Änderung</p>
-                  <p className="text-lg font-medium mt-1 text-emerald-500">+€1,234.56</p>
+                  <p className="text-base md:text-lg font-medium mt-1 text-emerald-500">+€1,234.56</p>
                 </div>
-                <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="p-3 md:p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-500">7T Rendite</p>
-                  <p className="text-lg font-medium mt-1 text-emerald-500">+5.67%</p>
+                  <p className="text-base md:text-lg font-medium mt-1 text-emerald-500">+5.67%</p>
                 </div>
-                <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="p-3 md:p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-500">30T Rendite</p>
-                  <p className="text-lg font-medium mt-1 text-emerald-500">+15.67%</p>
+                  <p className="text-base md:text-lg font-medium mt-1 text-emerald-500">+15.67%</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6">
               <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
                 <TabsList className="w-full">
                   <TabsTrigger value="assets" className="flex-1">Assets</TabsTrigger>
                   <TabsTrigger value="transactions" className="flex-1">Transaktionen</TabsTrigger>
                 </TabsList>
                 <TabsContent value="assets">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Asset</TableHead>
-                        <TableHead>Menge</TableHead>
-                        <TableHead>Wert</TableHead>
-                        <TableHead>24h</TableHead>
-                        <TableHead>Allokation</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {portfolioAssets.map((asset) => (
-                        <TableRow key={asset.symbol}>
-                          <TableCell className="font-medium">
-                            <div className="flex items-center gap-2">
-                              {asset.name}
-                              <Badge variant="secondary">{asset.symbol}</Badge>
-                            </div>
-                          </TableCell>
-                          <TableCell>{asset.amount}</TableCell>
-                          <TableCell>€{asset.value.toLocaleString()}</TableCell>
-                          <TableCell className={asset.change >= 0 ? "text-emerald-500" : "text-red-500"}>
-                            <div className="flex items-center">
-                              {asset.change >= 0 ? (
-                                <TrendingUp className="h-4 w-4 mr-1" />
-                              ) : (
-                                <TrendingDown className="h-4 w-4 mr-1" />
-                              )}
-                              {Math.abs(asset.change)}%
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              <Progress value={asset.allocation} className="w-24" />
-                              {asset.allocation}%
-                            </div>
-                          </TableCell>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Asset</TableHead>
+                          <TableHead>Menge</TableHead>
+                          <TableHead>Wert</TableHead>
+                          <TableHead>24h</TableHead>
+                          <TableHead className="hidden md:table-cell">Allokation</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                      </TableHeader>
+                      <TableBody>
+                        {portfolioAssets.map((asset) => (
+                          <TableRow key={asset.symbol}>
+                            <TableCell className="font-medium">
+                              <div className="flex items-center gap-2">
+                                {asset.name}
+                                <Badge variant="secondary">{asset.symbol}</Badge>
+                              </div>
+                            </TableCell>
+                            <TableCell>{asset.amount}</TableCell>
+                            <TableCell>€{asset.value.toLocaleString()}</TableCell>
+                            <TableCell className={asset.change >= 0 ? "text-emerald-500" : "text-red-500"}>
+                              <div className="flex items-center">
+                                {asset.change >= 0 ? (
+                                  <TrendingUp className="h-4 w-4 mr-1" />
+                                ) : (
+                                  <TrendingDown className="h-4 w-4 mr-1" />
+                                )}
+                                {Math.abs(asset.change)}%
+                              </div>
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                              <div className="flex items-center gap-2">
+                                <Progress value={asset.allocation} className="w-24" />
+                                {asset.allocation}%
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
                 </TabsContent>
                 <TabsContent value="transactions">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Datum</TableHead>
-                        <TableHead>Asset</TableHead>
-                        <TableHead>Typ</TableHead>
-                        <TableHead>Betrag</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>15. Jun 2024</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            Bitcoin
-                            <Badge variant="secondary">BTC</Badge>
-                          </div>
-                        </TableCell>
-                        <TableCell>Kauf</TableCell>
-                        <TableCell className="text-emerald-500">+€1,234.56</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>14. Jun 2024</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            Ethereum
-                            <Badge variant="secondary">ETH</Badge>
-                          </div>
-                        </TableCell>
-                        <TableCell>Verkauf</TableCell>
-                        <TableCell className="text-red-500">-€567.89</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Datum</TableHead>
+                          <TableHead>Asset</TableHead>
+                          <TableHead>Typ</TableHead>
+                          <TableHead>Betrag</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>15. Jun 2024</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              Bitcoin
+                              <Badge variant="secondary">BTC</Badge>
+                            </div>
+                          </TableCell>
+                          <TableCell>Kauf</TableCell>
+                          <TableCell className="text-emerald-500">+€1,234.56</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>14. Jun 2024</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              Ethereum
+                              <Badge variant="secondary">ETH</Badge>
+                            </div>
+                          </TableCell>
+                          <TableCell>Verkauf</TableCell>
+                          <TableCell className="text-red-500">-€567.89</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
           </div>
 
           {/* Right Sidebar */}
-          <div className="col-span-4 space-y-8">
+          <div className="md:col-span-4 space-y-4 md:space-y-8">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold">Performance</h2>
@@ -220,11 +224,11 @@ export default function Portfolio() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-gray-500">Investiert</p>
-                    <p className="text-lg font-medium mt-1">€35,678.90</p>
+                    <p className="text-base md:text-lg font-medium mt-1">€35,678.90</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Aktueller Wert</p>
-                    <p className="text-lg font-medium mt-1">€41,481.35</p>
+                    <p className="text-base md:text-lg font-medium mt-1">€41,481.35</p>
                   </div>
                 </div>
                 <Progress value={65} className="h-2" />
