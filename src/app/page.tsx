@@ -32,11 +32,21 @@ import Link from "next/link";
 
 const Chart = dynamic(() => import("@/components/chart"), { ssr: false });
 
+type TimeRange = "1D" | "1W" | "1M" | "1Y";
+
 export default function Home() {
   const [isTradeDialogOpen, setIsTradeDialogOpen] = useState(false);
   const [isDepositDialogOpen, setIsDepositDialogOpen] = useState(false);
   const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>("1M");
+
+  const timeRanges: { value: TimeRange; label: string }[] = [
+    { value: "1D", label: "1T" },
+    { value: "1W", label: "1W" },
+    { value: "1M", label: "1M" },
+    { value: "1Y", label: "1J" },
+  ];
 
   return (
     <div className="container max-w-[1200px] mx-auto p-4">
@@ -124,16 +134,22 @@ export default function Home() {
                   </TabsTrigger>
                 </TabsList>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">1T</Button>
-                  <Button variant="outline" size="sm">1W</Button>
-                  <Button variant="outline" size="sm">1M</Button>
-                  <Button variant="outline" size="sm">1J</Button>
+                  {timeRanges.map(({ value, label }) => (
+                    <Button
+                      key={value}
+                      variant={selectedTimeRange === value ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setSelectedTimeRange(value)}
+                    >
+                      {label}
+                    </Button>
+                  ))}
                 </div>
               </div>
 
               <TabsContent value="chart" className="space-y-4">
                 <div className="h-[400px]">
-                  <Chart />
+                  <Chart timeRange={selectedTimeRange} />
                 </div>
               </TabsContent>
 

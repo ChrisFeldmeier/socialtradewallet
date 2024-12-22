@@ -44,7 +44,7 @@ export default function RootLayout({
                 <div className="flex items-center gap-8">
                   <Link href="/" className="flex items-center gap-2 font-medium">
                     <CircleDot className="h-5 w-5" />
-                    Bitpanda
+                    Kryptobörse
                   </Link>
                   <nav className="flex items-center gap-6">
                     <Link href="/" className="text-sm hover:text-gray-600">Übersicht</Link>

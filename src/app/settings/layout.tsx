@@ -37,8 +37,8 @@ export default function SettingsLayout({
                 CN
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-medium">Chris Nissen</h3>
-                <p className="text-gray-500">chris@example.com</p>
+                <h3 className="text-lg font-medium">Max Mustermann</h3>
+                <p className="text-gray-500">max@example.com</p>
                 <div className="flex gap-2 mt-2">
                   <Badge variant="outline" className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">Pro Mitglied</Badge>
                   <Badge variant="outline" className="bg-blue-50 text-blue-700 hover:bg-blue-50">Verifiziert</Badge>

@@ -1,63 +1,129 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Line } from "react-chartjs-2";
+import { useMemo } from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from "chart.js";
 
-const data = [
-  { date: '01.01', value: 12000 },
-  { date: '02.01', value: 12500 },
-  { date: '03.01', value: 12300 },
-  { date: '04.01', value: 13000 },
-  { date: '05.01', value: 12800 },
-  { date: '06.01', value: 13500 },
-  { date: '07.01', value: 13800 },
-  { date: '08.01', value: 14200 },
-  { date: '09.01', value: 14100 },
-  { date: '10.01', value: 14500 },
-  { date: '11.01', value: 14800 },
-  { date: '12.01', value: 15234 },
-];
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
-export default function Chart() {
-  return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        data={data}
-        margin={{
-          top: 5,
-          right: 5,
-          left: 5,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-        <XAxis 
-          dataKey="date" 
-          tick={{ fontSize: 12 }} 
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis 
-          tick={{ fontSize: 12 }}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `€${value.toLocaleString()}`}
-        />
-        <Tooltip 
-          formatter={(value: number) => [`€${value.toLocaleString()}`, 'Wert']}
-          contentStyle={{
-            backgroundColor: 'white',
-            border: '1px solid #e5e7eb',
-            borderRadius: '6px',
-            padding: '8px',
-          }}
-        />
-        <Line
-          type="monotone"
-          dataKey="value"
-          stroke="#2563eb"
-          strokeWidth={2}
-          dot={false}
-          activeDot={{ r: 6 }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
-  );
+type TimeRange = "1D" | "1W" | "1M" | "1Y";
+
+interface ChartProps {
+  timeRange: TimeRange;
+}
+
+// Generiere die Daten einmalig außerhalb der Komponente
+const generateInitialData = () => {
+  const basePrice = 45000;
+  const data = {
+    "1D": {
+      labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+      data: Array.from({ length: 24 }, (_, i) => basePrice + Math.sin(i / 4) * 1000)
+    },
+    "1W": {
+      labels: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+      data: Array.from({ length: 7 }, (_, i) => basePrice + Math.sin(i / 2) * 2000)
+    },
+    "1M": {
+      labels: Array.from({ length: 30 }, (_, i) => `${i + 1}`),
+      data: Array.from({ length: 30 }, (_, i) => basePrice + Math.sin(i / 8) * 5000)
+    },
+    "1Y": {
+      labels: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+      data: Array.from({ length: 12 }, (_, i) => basePrice + Math.sin(i / 3) * 10000)
+    }
+  };
+  return data;
+};
+
+const initialData = generateInitialData();
+
+export default function Chart({ timeRange }: ChartProps) {
+  const data = useMemo(() => ({
+    labels: initialData[timeRange].labels,
+    datasets: [
+      {
+        label: "Portfolio Wert",
+        data: initialData[timeRange].data,
+        fill: true,
+        borderColor: "rgb(59, 130, 246)",
+        backgroundColor: "rgba(59, 130, 246, 0.1)",
+        tension: 0.4,
+        pointRadius: 0,
+        borderWidth: 2,
+      },
+    ],
+  }), [timeRange]);
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        mode: "index" as const,
+        intersect: false,
+        callbacks: {
+          label: (context: any) => {
+            let label = context.dataset.label || "";
+            if (label) {
+              label += ": ";
+            }
+            if (context.parsed.y !== null) {
+              label += new Intl.NumberFormat("de-DE", {
+                style: "currency",
+                currency: "EUR",
+              }).format(context.parsed.y);
+            }
+            return label;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        grid: {
+          color: "rgba(0, 0, 0, 0.05)",
+        },
+        ticks: {
+          callback: (value: any) => {
+            return new Intl.NumberFormat("de-DE", {
+              style: "currency",
+              currency: "EUR",
+            }).format(value);
+          },
+        },
+      },
+    },
+    interaction: {
+      intersect: false,
+      mode: "index" as const,
+    },
+  };
+
+  return <Line data={data} options={options} />;
 } 

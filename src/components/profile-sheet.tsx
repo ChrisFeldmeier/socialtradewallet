@@ -118,7 +118,7 @@ export function ProfileSheet({ isOpen, onOpenChange }: ProfileSheetProps) {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div>
-                <SheetTitle>Chris Nissen</SheetTitle>
+                <SheetTitle>Max Mustermann</SheetTitle>
                 <p className="text-sm text-gray-500">chris@example.com</p>
                 <div className="flex items-center gap-2 mt-1">
                   <Badge variant="secondary" className="bg-emerald-100 text-emerald-700">
