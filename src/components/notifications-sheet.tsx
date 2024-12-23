@@ -157,7 +157,7 @@ export function NotificationsSheet({ isOpen, onOpenChange }: NotificationsSheetP
           <div className="flex items-center justify-between">
             <SheetTitle>Benachrichtigungen</SheetTitle>
             {unreadCount > 0 && (
-              <Button variant="ghost" size="sm" onClick={markAllAsRead}>
+              <Button variant="ghost" size="sm" onClick={markAllAsRead} className="dark:hover:bg-gray-800">
                 Alle als gelesen markieren
               </Button>
             )}
@@ -168,25 +168,25 @@ export function NotificationsSheet({ isOpen, onOpenChange }: NotificationsSheetP
         </SheetHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
-          <TabsList className="grid grid-cols-5 mb-4">
-            <TabsTrigger value="all" className="relative">
+          <TabsList className="grid grid-cols-5 mb-4 dark:bg-gray-900">
+            <TabsTrigger value="all" className="relative dark:data-[state=active]:bg-gray-800">
               Alle
               {unreadCount > 0 && (
-                <Badge variant="secondary" className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0">
+                <Badge variant="secondary" className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 dark:bg-gray-800">
                   {unreadCount}
                 </Badge>
               )}
             </TabsTrigger>
-            <TabsTrigger value="transaction">
+            <TabsTrigger value="transaction" className="dark:data-[state=active]:bg-gray-800">
               <Wallet className="h-4 w-4" />
             </TabsTrigger>
-            <TabsTrigger value="market">
+            <TabsTrigger value="market" className="dark:data-[state=active]:bg-gray-800">
               <TrendingUp className="h-4 w-4" />
             </TabsTrigger>
-            <TabsTrigger value="security">
+            <TabsTrigger value="security" className="dark:data-[state=active]:bg-gray-800">
               <Shield className="h-4 w-4" />
             </TabsTrigger>
-            <TabsTrigger value="system">
+            <TabsTrigger value="system" className="dark:data-[state=active]:bg-gray-800">
               <Settings className="h-4 w-4" />
             </TabsTrigger>
           </TabsList>
@@ -201,18 +201,18 @@ export function NotificationsSheet({ isOpen, onOpenChange }: NotificationsSheetP
                     key={notification.id}
                     className={`flex gap-4 p-4 rounded-lg border transition-colors ${
                       isUnread 
-                        ? "bg-gray-50 border-gray-200" 
-                        : "bg-white border-gray-100"
+                        ? "bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-800" 
+                        : "bg-white dark:bg-gray-950 border-gray-100 dark:border-gray-800"
                     }`}
                     onClick={() => markAsRead(notification.id)}
                   >
                     <div
                       className={`h-10 w-10 rounded-full flex items-center justify-center ${
                         notification.type === "success"
-                          ? "bg-emerald-100 text-emerald-600"
+                          ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400"
                           : notification.type === "warning"
-                          ? "bg-yellow-100 text-yellow-600"
-                          : "bg-blue-100 text-blue-600"
+                          ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400"
+                          : "bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400"
                       }`}
                     >
                       <Icon className="h-5 w-5" />
@@ -220,9 +220,9 @@ export function NotificationsSheet({ isOpen, onOpenChange }: NotificationsSheetP
                     <div className="flex-1 space-y-1">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <p className="font-medium">{notification.title}</p>
+                          <p className="font-medium dark:text-white">{notification.title}</p>
                           {isUnread && (
-                            <Badge variant="secondary" className="bg-emerald-100 text-emerald-700">
+                            <Badge variant="secondary" className="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400">
                               Neu
                             </Badge>
                           )}
@@ -231,21 +231,21 @@ export function NotificationsSheet({ isOpen, onOpenChange }: NotificationsSheetP
                           variant="secondary"
                           className={
                             notification.type === "success"
-                              ? "bg-emerald-100 text-emerald-700"
+                              ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400"
                               : notification.type === "warning"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-blue-100 text-blue-700"
+                              ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-400"
+                              : "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400"
                           }
                         >
                           {notification.time}
                         </Badge>
                       </div>
-                      <p className="text-sm text-gray-500">{notification.message}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{notification.message}</p>
                       {notification.action && (
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="mt-2 h-8 px-3"
+                          className="mt-2 h-8 px-3 dark:hover:bg-gray-800"
                           onClick={(e) => {
                             e.stopPropagation();
                             notification.action?.onClick();
