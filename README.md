@@ -2,6 +2,8 @@
 
 ![Project Screenshot](public/screenshot1.png)
 
+This beautiful template is open-sourced and free to use.
+
 ## Getting Started
 
 First, run the development server:
