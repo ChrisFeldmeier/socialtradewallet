@@ -107,76 +107,82 @@ export default function InvestPage() {
       <div className="grid gap-8">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold">Investment</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-3xl font-bold dark:text-white">Investment</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
             Verwalte dein Portfolio und entdecke neue Anlagemöglichkeiten
           </p>
         </div>
 
         {/* Portfolio Overview */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="bg-white rounded-lg border p-4">
+          <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Portfolio-Wert</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Portfolio-Wert</p>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
-            <p className="text-2xl font-bold mt-2">€48,250.00</p>
-            <div className="flex items-center gap-1 mt-1 text-emerald-600 text-sm">
+            <p className="text-2xl font-bold mt-2 dark:text-white">€48,250.00</p>
+            <div className="flex items-center gap-1 mt-1 text-emerald-600 dark:text-emerald-500 text-sm">
               <ArrowUpRight className="h-4 w-4" />
               <span>+12.5%</span>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border p-4">
+          <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">24h Gewinn/Verlust</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">24h Gewinn/Verlust</p>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
-            <p className="text-2xl font-bold mt-2">€1,250.00</p>
-            <div className="flex items-center gap-1 mt-1 text-emerald-600 text-sm">
+            <p className="text-2xl font-bold mt-2 dark:text-white">€1,250.00</p>
+            <div className="flex items-center gap-1 mt-1 text-emerald-600 dark:text-emerald-500 text-sm">
               <ArrowUpRight className="h-4 w-4" />
               <span>+2.8%</span>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border p-4">
+          <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Offene Positionen</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Offene Positionen</p>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
-            <p className="text-2xl font-bold mt-2">8</p>
-            <p className="text-sm text-gray-500 mt-1">4 im Gewinn</p>
+            <p className="text-2xl font-bold mt-2 dark:text-white">8</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">4 im Gewinn</p>
           </div>
 
-          <div className="bg-white rounded-lg border p-4">
+          <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Watchlist</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Watchlist</p>
               <Info className="h-4 w-4 text-gray-400" />
             </div>
-            <p className="text-2xl font-bold mt-2">6</p>
-            <p className="text-sm text-gray-500 mt-1">2 Preisalarme</p>
+            <p className="text-2xl font-bold mt-2 dark:text-white">6</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">2 Preisalarme</p>
           </div>
         </div>
 
         {/* Chart */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold">Portfolio-Entwicklung</h2>
+            <h2 className="text-xl font-semibold dark:text-white">Portfolio-Entwicklung</h2>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">1T</Button>
-              <Button variant="outline" size="sm">1W</Button>
-              <Button variant="secondary" size="sm">1M</Button>
-              <Button variant="outline" size="sm">1J</Button>
-              <Button variant="outline" size="sm">Max</Button>
+              <Button variant="outline" size="sm" className="dark:border-gray-800 dark:hover:bg-gray-800">1T</Button>
+              <Button variant="outline" size="sm" className="dark:border-gray-800 dark:hover:bg-gray-800">1W</Button>
+              <Button variant="secondary" size="sm" className="dark:bg-gray-800">1M</Button>
+              <Button variant="outline" size="sm" className="dark:border-gray-800 dark:hover:bg-gray-800">1J</Button>
+              <Button variant="outline" size="sm" className="dark:border-gray-800 dark:hover:bg-gray-800">Max</Button>
             </div>
           </div>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" className="dark:stroke-gray-800" />
+                <XAxis dataKey="name" stroke="currentColor" />
+                <YAxis stroke="currentColor" />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'var(--background)',
+                    borderColor: 'var(--border)',
+                    color: 'var(--foreground)'
+                  }}
+                />
                 <Line 
                   type="monotone" 
                   dataKey="value" 
@@ -190,9 +196,9 @@ export default function InvestPage() {
 
         {/* Tabs */}
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="overview">Übersicht</TabsTrigger>
-            <TabsTrigger value="watchlist">Watchlist</TabsTrigger>
+          <TabsList className="dark:bg-gray-900">
+            <TabsTrigger value="overview" className="dark:data-[state=active]:bg-gray-800">Übersicht</TabsTrigger>
+            <TabsTrigger value="watchlist" className="dark:data-[state=active]:bg-gray-800">Watchlist</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
@@ -202,10 +208,10 @@ export default function InvestPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                 <Input 
                   placeholder="Suche nach Assets..." 
-                  className="pl-9"
+                  className="pl-9 dark:bg-gray-950 dark:border-gray-800 dark:placeholder-gray-400"
                 />
               </div>
-              <Button variant="outline" className="sm:w-auto">
+              <Button variant="outline" className="sm:w-auto dark:border-gray-800 dark:hover:bg-gray-800">
                 <Filter className="h-4 w-4 mr-2" />
                 Filter
               </Button>
@@ -216,7 +222,7 @@ export default function InvestPage() {
               {assets.map((asset) => (
                 <div 
                   key={asset.id}
-                  className="bg-white rounded-lg border p-4"
+                  className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-4"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -227,24 +233,26 @@ export default function InvestPage() {
                       />
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold">{asset.name}</h3>
-                          <Badge variant="secondary">
+                          <h3 className="font-semibold dark:text-white">{asset.name}</h3>
+                          <Badge variant="secondary" className="dark:bg-gray-800">
                             {asset.symbol}
                           </Badge>
                         </div>
-                        <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
+                        <div className="flex items-center gap-4 mt-1 text-sm text-gray-500 dark:text-gray-400">
                           <span>Vol: {asset.volume}</span>
                           <span>MCap: {asset.marketCap}</span>
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">
+                      <p className="font-semibold dark:text-white">
                         €{asset.price.toLocaleString()}
                       </p>
                       <div className={cn(
                         "flex items-center gap-1 mt-1 text-sm",
-                        asset.change >= 0 ? "text-emerald-600" : "text-red-600"
+                        asset.change >= 0 
+                          ? "text-emerald-600 dark:text-emerald-500" 
+                          : "text-red-600 dark:text-red-500"
                       )}>
                         {asset.change >= 0 ? (
                           <ArrowUpRight className="h-4 w-4" />
@@ -261,60 +269,51 @@ export default function InvestPage() {
           </TabsContent>
 
           <TabsContent value="watchlist" className="space-y-4">
-            {watchlist.map((asset) => (
+            {watchlist.map((item) => (
               <div 
-                key={asset.id}
-                className="bg-white rounded-lg border p-4"
+                key={item.id}
+                className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 p-4"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <img 
-                      src={asset.image} 
-                      alt={asset.name}
+                      src={item.image} 
+                      alt={item.name}
                       className="w-12 h-12 rounded-full"
                     />
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-semibold">{asset.name}</h3>
-                        <Badge variant="secondary">
-                          {asset.symbol}
+                        <h3 className="font-semibold dark:text-white">{item.name}</h3>
+                        <Badge variant="secondary" className="dark:bg-gray-800">
+                          {item.symbol}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
-                        <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                        <span>Alert bei €{asset.alert.toLocaleString()}</span>
+                      <div className="flex items-center gap-4 mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <span>Alert: €{item.alert.toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold">
-                      €{asset.price.toLocaleString()}
+                    <p className="font-semibold dark:text-white">
+                      €{item.price.toLocaleString()}
                     </p>
                     <div className={cn(
                       "flex items-center gap-1 mt-1 text-sm",
-                      asset.change >= 0 ? "text-emerald-600" : "text-red-600"
+                      item.change >= 0 
+                        ? "text-emerald-600 dark:text-emerald-500" 
+                        : "text-red-600 dark:text-red-500"
                     )}>
-                      {asset.change >= 0 ? (
+                      {item.change >= 0 ? (
                         <ArrowUpRight className="h-4 w-4" />
                       ) : (
                         <ArrowDownRight className="h-4 w-4" />
                       )}
-                      <span>{Math.abs(asset.change)}%</span>
+                      <span>{Math.abs(item.change)}%</span>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
-
-            {watchlist.length === 0 && (
-              <div className="text-center py-12">
-                <Star className="h-12 w-12 mx-auto text-gray-400" />
-                <h3 className="mt-4 text-lg font-medium">Keine Assets in der Watchlist</h3>
-                <p className="mt-2 text-gray-500">
-                  Füge Assets zu deiner Watchlist hinzu, um sie im Auge zu behalten
-                </p>
-              </div>
-            )}
           </TabsContent>
         </Tabs>
       </div>

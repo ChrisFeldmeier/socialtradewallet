@@ -63,26 +63,26 @@ export default function Portfolio() {
   const totalValue = portfolioAssets.reduce((sum, asset) => sum + asset.value, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
           {/* Left Content */}
           <div className="md:col-span-8">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 mb-4 md:mb-8">
+            <div className="bg-white dark:bg-gray-950 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4 md:p-6 mb-4 md:mb-8">
               <div className="flex items-center justify-between mb-4 md:mb-6">
                 <div>
-                  <h1 className="text-xl md:text-2xl font-bold">Portfolio</h1>
+                  <h1 className="text-xl md:text-2xl font-bold dark:text-white">Portfolio</h1>
                   <div className="flex items-center gap-2 md:gap-4 mt-2">
-                    <p className="text-2xl md:text-3xl font-semibold">
+                    <p className="text-2xl md:text-3xl font-semibold dark:text-white">
                       €{totalValue.toLocaleString()}
                     </p>
-                    <Badge variant="outline" className="flex items-center">
+                    <Badge variant="outline" className="flex items-center dark:border-gray-700">
                       <ArrowUpRight className="h-4 w-4 mr-1" />
                       +15.67%
                     </Badge>
                   </div>
                 </div>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="dark:border-gray-800 dark:hover:bg-gray-800">
                   <PieChart className="h-4 w-4" />
                 </Button>
               </div>
@@ -90,9 +90,15 @@ export default function Portfolio() {
               <div className="h-[250px] md:h-[300px] mt-4 md:mt-8">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={performanceData}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
+                    <XAxis dataKey="name" stroke="currentColor" />
+                    <YAxis stroke="currentColor" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'var(--background)',
+                        borderColor: 'var(--border)',
+                        color: 'var(--foreground)'
+                      }} 
+                    />
                     <Line
                       type="monotone"
                       dataKey="value"
@@ -105,50 +111,50 @@ export default function Portfolio() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4 mt-4 md:mt-8">
-                <div className="p-3 md:p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-500">24h Änderung</p>
+                <div className="p-3 md:p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">24h Änderung</p>
                   <p className="text-base md:text-lg font-medium mt-1 text-emerald-500">+€1,234.56</p>
                 </div>
-                <div className="p-3 md:p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-500">7T Rendite</p>
+                <div className="p-3 md:p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">7T Rendite</p>
                   <p className="text-base md:text-lg font-medium mt-1 text-emerald-500">+5.67%</p>
                 </div>
-                <div className="p-3 md:p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-500">30T Rendite</p>
+                <div className="p-3 md:p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">30T Rendite</p>
                   <p className="text-base md:text-lg font-medium mt-1 text-emerald-500">+15.67%</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6">
+            <div className="bg-white dark:bg-gray-950 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4 md:p-6">
               <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-                <TabsList className="w-full">
-                  <TabsTrigger value="assets" className="flex-1">Assets</TabsTrigger>
-                  <TabsTrigger value="transactions" className="flex-1">Transaktionen</TabsTrigger>
+                <TabsList className="w-full dark:bg-gray-900">
+                  <TabsTrigger value="assets" className="flex-1 dark:data-[state=active]:bg-gray-800">Assets</TabsTrigger>
+                  <TabsTrigger value="transactions" className="flex-1 dark:data-[state=active]:bg-gray-800">Transaktionen</TabsTrigger>
                 </TabsList>
                 <TabsContent value="assets">
                   <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
-                        <TableRow>
-                          <TableHead>Asset</TableHead>
-                          <TableHead>Menge</TableHead>
-                          <TableHead>Wert</TableHead>
-                          <TableHead>24h</TableHead>
-                          <TableHead className="hidden md:table-cell">Allokation</TableHead>
+                        <TableRow className="dark:border-gray-800">
+                          <TableHead className="dark:text-gray-400">Asset</TableHead>
+                          <TableHead className="dark:text-gray-400">Menge</TableHead>
+                          <TableHead className="dark:text-gray-400">Wert</TableHead>
+                          <TableHead className="dark:text-gray-400">24h</TableHead>
+                          <TableHead className="hidden md:table-cell dark:text-gray-400">Allokation</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {portfolioAssets.map((asset) => (
-                          <TableRow key={asset.symbol}>
-                            <TableCell className="font-medium">
+                          <TableRow key={asset.symbol} className="dark:border-gray-800">
+                            <TableCell className="font-medium dark:text-white">
                               <div className="flex items-center gap-2">
                                 {asset.name}
-                                <Badge variant="secondary">{asset.symbol}</Badge>
+                                <Badge variant="secondary" className="dark:bg-gray-800">{asset.symbol}</Badge>
                               </div>
                             </TableCell>
-                            <TableCell>{asset.amount}</TableCell>
-                            <TableCell>€{asset.value.toLocaleString()}</TableCell>
+                            <TableCell className="dark:text-gray-300">{asset.amount}</TableCell>
+                            <TableCell className="dark:text-gray-300">€{asset.value.toLocaleString()}</TableCell>
                             <TableCell className={asset.change >= 0 ? "text-emerald-500" : "text-red-500"}>
                               <div className="flex items-center">
                                 {asset.change >= 0 ? (
@@ -159,7 +165,7 @@ export default function Portfolio() {
                                 {Math.abs(asset.change)}%
                               </div>
                             </TableCell>
-                            <TableCell className="hidden md:table-cell">
+                            <TableCell className="hidden md:table-cell dark:text-gray-300">
                               <div className="flex items-center gap-2">
                                 <Progress value={asset.allocation} className="w-24" />
                                 {asset.allocation}%
@@ -175,34 +181,34 @@ export default function Portfolio() {
                   <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
-                        <TableRow>
-                          <TableHead>Datum</TableHead>
-                          <TableHead>Asset</TableHead>
-                          <TableHead>Typ</TableHead>
-                          <TableHead>Betrag</TableHead>
+                        <TableRow className="dark:border-gray-800">
+                          <TableHead className="dark:text-gray-400">Datum</TableHead>
+                          <TableHead className="dark:text-gray-400">Asset</TableHead>
+                          <TableHead className="dark:text-gray-400">Typ</TableHead>
+                          <TableHead className="dark:text-gray-400">Betrag</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        <TableRow>
-                          <TableCell>15. Jun 2024</TableCell>
-                          <TableCell>
+                        <TableRow className="dark:border-gray-800">
+                          <TableCell className="dark:text-gray-300">15. Jun 2024</TableCell>
+                          <TableCell className="dark:text-gray-300">
                             <div className="flex items-center gap-2">
                               Bitcoin
-                              <Badge variant="secondary">BTC</Badge>
+                              <Badge variant="secondary" className="dark:bg-gray-800">BTC</Badge>
                             </div>
                           </TableCell>
-                          <TableCell>Kauf</TableCell>
+                          <TableCell className="dark:text-gray-300">Kauf</TableCell>
                           <TableCell className="text-emerald-500">+€1,234.56</TableCell>
                         </TableRow>
-                        <TableRow>
-                          <TableCell>14. Jun 2024</TableCell>
-                          <TableCell>
+                        <TableRow className="dark:border-gray-800">
+                          <TableCell className="dark:text-gray-300">14. Jun 2024</TableCell>
+                          <TableCell className="dark:text-gray-300">
                             <div className="flex items-center gap-2">
                               Ethereum
-                              <Badge variant="secondary">ETH</Badge>
+                              <Badge variant="secondary" className="dark:bg-gray-800">ETH</Badge>
                             </div>
                           </TableCell>
-                          <TableCell>Verkauf</TableCell>
+                          <TableCell className="dark:text-gray-300">Verkauf</TableCell>
                           <TableCell className="text-red-500">-€567.89</TableCell>
                         </TableRow>
                       </TableBody>
@@ -215,39 +221,39 @@ export default function Portfolio() {
 
           {/* Right Sidebar */}
           <div className="md:col-span-4 space-y-4 md:space-y-8">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="bg-white dark:bg-gray-950 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold">Performance</h2>
+                <h2 className="text-lg font-semibold dark:text-white">Performance</h2>
                 <Info className="h-4 w-4 text-gray-400" />
               </div>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Investiert</p>
-                    <p className="text-base md:text-lg font-medium mt-1">€35,678.90</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Investiert</p>
+                    <p className="text-base md:text-lg font-medium mt-1 dark:text-white">€35,678.90</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Aktueller Wert</p>
-                    <p className="text-base md:text-lg font-medium mt-1">€41,481.35</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Aktueller Wert</p>
+                    <p className="text-base md:text-lg font-medium mt-1 dark:text-white">€41,481.35</p>
                   </div>
                 </div>
                 <Progress value={65} className="h-2" />
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-gray-500">Absolut</p>
+                    <p className="text-gray-500 dark:text-gray-400">Absolut</p>
                     <p className="text-emerald-500 font-medium">+€5,802.45</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Prozentual</p>
+                    <p className="text-gray-500 dark:text-gray-400">Prozentual</p>
                     <p className="text-emerald-500 font-medium">+16.26%</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="bg-white dark:bg-gray-950 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold">Aktivität</h2>
+                <h2 className="text-lg font-semibold dark:text-white">Aktivität</h2>
                 <Activity className="h-4 w-4 text-gray-400" />
               </div>
               <div className="space-y-4">

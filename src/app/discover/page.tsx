@@ -114,13 +114,13 @@ export default function Discover() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="space-y-8">
           {/* Header */}
           <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">Entdecken</h1>
-            <p className="text-gray-500">
+            <h1 className="text-3xl font-bold dark:text-white">Entdecken</h1>
+            <p className="text-gray-500 dark:text-gray-400">
               Entdecke neue Assets und verfolge die neuesten Trends im Markt.
             </p>
           </div>
@@ -134,25 +134,25 @@ export default function Discover() {
                 placeholder="Suche nach Assets..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 dark:bg-gray-950 dark:border-gray-800 dark:placeholder-gray-400"
               />
             </div>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2 dark:border-gray-800 dark:hover:bg-gray-800">
               <Filter className="h-4 w-4" /> Filter
             </Button>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2 dark:border-gray-800 dark:hover:bg-gray-800">
               <SortAsc className="h-4 w-4" /> Sortieren
             </Button>
           </div>
 
           {/* Trending Section */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white dark:bg-gray-950 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-yellow-500" />
-                <h2 className="text-xl font-semibold">Trending</h2>
+                <h2 className="text-xl font-semibold dark:text-white">Trending</h2>
               </div>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="dark:hover:bg-gray-800">
                 Alle anzeigen
               </Button>
             </div>
@@ -161,15 +161,15 @@ export default function Discover() {
                 <motion.div
                   key={asset.symbol}
                   whileHover={{ scale: 1.02 }}
-                  className="p-4 rounded-lg border border-gray-200 hover:border-emerald-500 transition-colors"
+                  className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-emerald-500 transition-colors dark:bg-gray-900"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium">{asset.name}</h3>
-                        <Badge variant="secondary">{asset.symbol}</Badge>
+                        <h3 className="font-medium dark:text-white">{asset.name}</h3>
+                        <Badge variant="secondary" className="dark:bg-gray-800">{asset.symbol}</Badge>
                       </div>
-                      <p className="text-2xl font-semibold mt-1">
+                      <p className="text-2xl font-semibold mt-1 dark:text-white">
                         €{asset.price.toLocaleString()}
                       </p>
                       <div className={`flex items-center mt-1 ${
@@ -183,7 +183,7 @@ export default function Discover() {
                         {Math.abs(asset.change)}%
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" className="dark:hover:bg-gray-800">
                       <Star className="h-4 w-4" />
                     </Button>
                   </div>
@@ -206,38 +206,38 @@ export default function Discover() {
           </div>
 
           {/* All Assets */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="bg-white dark:bg-gray-950 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-              <TabsList className="w-full">
-                <TabsTrigger value="all" className="flex-1">Alle Assets</TabsTrigger>
-                <TabsTrigger value="stocks" className="flex-1">Aktien</TabsTrigger>
-                <TabsTrigger value="crypto" className="flex-1">Krypto</TabsTrigger>
+              <TabsList className="w-full dark:bg-gray-900">
+                <TabsTrigger value="all" className="flex-1 dark:data-[state=active]:bg-gray-800">Alle Assets</TabsTrigger>
+                <TabsTrigger value="stocks" className="flex-1 dark:data-[state=active]:bg-gray-800">Aktien</TabsTrigger>
+                <TabsTrigger value="crypto" className="flex-1 dark:data-[state=active]:bg-gray-800">Krypto</TabsTrigger>
               </TabsList>
               <TabsContent value="all">
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead>Asset</TableHead>
-                      <TableHead>Preis</TableHead>
-                      <TableHead>24h</TableHead>
-                      <TableHead>Volumen (24h)</TableHead>
-                      <TableHead>Marktkapitalisierung</TableHead>
-                      <TableHead>Chart (7T)</TableHead>
-                      <TableHead></TableHead>
+                    <TableRow className="dark:border-gray-800">
+                      <TableHead className="dark:text-gray-400">Asset</TableHead>
+                      <TableHead className="dark:text-gray-400">Preis</TableHead>
+                      <TableHead className="dark:text-gray-400">24h</TableHead>
+                      <TableHead className="dark:text-gray-400">Volumen (24h)</TableHead>
+                      <TableHead className="dark:text-gray-400">Marktkapitalisierung</TableHead>
+                      <TableHead className="dark:text-gray-400">Chart (7T)</TableHead>
+                      <TableHead className="dark:text-gray-400"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredAssets.map((asset) => (
-                      <TableRow key={asset.symbol}>
+                      <TableRow key={asset.symbol} className="dark:border-gray-800">
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <div>
-                              <div className="font-medium">{asset.name}</div>
-                              <Badge variant="secondary">{asset.symbol}</Badge>
+                              <div className="font-medium dark:text-white">{asset.name}</div>
+                              <Badge variant="secondary" className="dark:bg-gray-800">{asset.symbol}</Badge>
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell>€{asset.price.toLocaleString()}</TableCell>
+                        <TableCell className="dark:text-gray-300">€{asset.price.toLocaleString()}</TableCell>
                         <TableCell className={asset.change >= 0 ? "text-emerald-500" : "text-red-500"}>
                           <div className="flex items-center">
                             {asset.change >= 0 ? (
@@ -248,10 +248,10 @@ export default function Discover() {
                             {Math.abs(asset.change)}%
                           </div>
                         </TableCell>
-                        <TableCell>{asset.volume}</TableCell>
-                        <TableCell>{asset.marketCap}</TableCell>
-                        <TableCell>
-                          <div className="h-[40px] w-[100px]">
+                        <TableCell className="dark:text-gray-300">{asset.volume}</TableCell>
+                        <TableCell className="dark:text-gray-300">{asset.marketCap}</TableCell>
+                        <TableCell className="w-[100px]">
+                          <div className="h-[40px]">
                             <ResponsiveContainer width="100%" height="100%">
                               <LineChart data={asset.chart}>
                                 <Line
@@ -266,8 +266,8 @@ export default function Discover() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Button variant="outline" size="sm">
-                            Handeln
+                          <Button variant="ghost" size="icon" className="dark:hover:bg-gray-800">
+                            <Star className="h-4 w-4" />
                           </Button>
                         </TableCell>
                       </TableRow>
